@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Recipe Index Pag</title>
+    <title>Recipe Index Page</title>
 </head>
 <body>
-    <h1>Recipe Index Page</h1>
+<div class="card border-warning">
+    <div class="card-header text-bg-warning">
+        <h2 class="card-title" th:text="'List of Recipes'">List of Recipes</h2>
+    </div>
+    <div class="card-body">
+        <table id="recipes" class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th style="width: 150px;">Description</th>
+                <th style="width: 150px;">Difficulty</th>
+                <th style="width: 200px;">PrepTime</th>
+                <th style="width: 120px">CookTime</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recipe : ${recipes}">
+                <td th:text="${recipe.id}"></td>
+                <td th:text="${recipe.description}"></td>
+                <td th:text="${recipe.difficulty}"></td>
+                <td th:text="${recipe.prepTime}"></td>
+                <td th:text="${recipe.cookTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
