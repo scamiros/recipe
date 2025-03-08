@@ -1,10 +1,13 @@
 package org.lucius.recipe.bootstrap;
 
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.lucius.recipe.domain.*;
 import org.lucius.recipe.repositories.CategoryRepository;
 import org.lucius.recipe.repositories.RecipeRepository;
 import org.lucius.recipe.repositories.UnitOfMesaureRepository;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+@Slf4j
+public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
@@ -26,8 +30,8 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-
+    @Transactional
+    public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
     }
 
@@ -198,6 +202,9 @@ public class DataLoader implements CommandLineRunner {
         tacosRecipe.getCategories().add(mexicanCategory);
 
         recipes.add(tacosRecipe);
+
+        log.debug("Inserted recipes");
+
         return recipes;
     }
 }
