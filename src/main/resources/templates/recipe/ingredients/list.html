@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ingredients Index Page</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script th:src="@{/webjars/jquery/3.7.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<main class="mb-5">
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <span class="fs-4">Simple header</span>
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+      </ul>
+    </header>
+  </div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-10 offset-1 mb-3">
+        <a href="#" th:href="@{'/'}" class="btn btn-outline-success me-2">
+          <i class="bi bi-arrow-left-square"></i> Back to List
+        </a>
+        <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show' }" class="btn btn-outline-success">
+          <i class="bi bi-arrow-left-square"></i> Back to recipe
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 offset-1">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">List of Ingredients
+              <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/new'}" class="btn btn-outline-success">
+                Add Ingredient <i class="bi bi-plus-circle"></i>
+              </a>
+            </h2>
+          </div>
+          <div class="card-body">
+            <table id="ingredients" class="table" th:if="${not #lists.isEmpty(recipe.ingredients)}">
+              <thead>
+              <tr>
+                <th style="width: 60px;">ID</th>
+                <th>Description</th>
+                <th>#</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="ing : ${recipe.ingredients}">
+                <td th:text="${ing.id}"></td>
+                <td th:text="${ing.description} + ' ' + ${ing.amount} + ' ' + ${ing.uom.description}"></td>
+                <td>
+                  <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ing.id} + '/show'}" class="btn btn-outline-success me-2">
+                    <i class="bi bi-search"></i>
+                  </a>
+                  <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ing.id} + '/update'}" class="btn btn-outline-warning me-2">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+                  <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ing.id} + '/delete'}" class="btn btn-outline-danger">
+                    <i class="bi bi-x-square"></i>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

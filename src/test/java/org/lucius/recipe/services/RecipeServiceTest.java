@@ -2,6 +2,8 @@ package org.lucius.recipe.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.lucius.recipe.converter.RecipeCommandToRecipe;
+import org.lucius.recipe.converter.RecipeToRecipeCommand;
 import org.lucius.recipe.domain.Recipe;
 import org.lucius.recipe.repositories.RecipeRepository;
 import org.mockito.Mock;
@@ -20,10 +22,17 @@ class RecipeServiceTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        recipeService = new RecipeService(recipeRepository);
+        MockitoAnnotations.initMocks(this);
+
+        recipeService = new RecipeService(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test

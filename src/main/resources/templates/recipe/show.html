@@ -18,7 +18,6 @@
 
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
@@ -40,77 +39,88 @@
                         <h2 class="card-title fw-bold text-uppercase" th:text="${recipe.description}"></h2>
                     </div>
                     <div class="card-body">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold text-uppercase" th:text="'Categories'"></h5>
-                            <p>
-                                <span th:each="cat : ${recipe.categories}">
-                                    <span class="badge text-bg-success" th:text="${cat.description}"></span>
-                                </span>
-                            </p>
-                            <hr>
-                            <div class="row">
-                                <div class="col-6">
-                                    <ol class="list-group">
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Prep Time</div>
-                                                <span th:text="${recipe.prepTime}"></span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Cook Time</div>
-                                                <span th:text="${recipe.cookTime}"></span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Source</div>
-                                                <span th:text="${recipe.source ?: 'No info'}">No info</span>
-                                            </div>
-                                        </li>
-                                    </ol>                                </div>
-                                <div class="col-6">
-                                    <ol class="list-group">
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Difficulty</div>
-                                                <span th:text="${recipe.difficulty}"></span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Servings</div>
-                                                <span th:text="${recipe.servings}">No info</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-start align-items-start">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Url</div>
-                                                <span th:text="${recipe.url}">No info</span>
-                                            </div>
-                                        </li>
-                                    </ol>
-                                </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <img src="../../static/images/guacamole.jpg" th:src="@{/images/guacamole.jpg}" class="rounded float-start">
                             </div>
-                            <hr>
-                            <h5 class="card-title fw-bold text-uppercase" th:text="'Ingredients'"></h5>
-                            <ul class="list-group">
-                                <li th:each="ing : ${recipe.ingredients}" class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div class="fw-bold" th:text="${ing.description}"></div>
-                                    <div>
-                                        <span th:text="${ing.uom.description}"></span>
-                                        <span class="badge text-bg-primary rounded-pill" th:text="${ing.amount}"></span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <hr>
-                            <h5 class="card-title fw-bold text-uppercase fw-bold text-uppercase" th:text="'Directions'"></h5>
-                            <p th:text="${recipe.directions}" style="white-space: pre-line;"></p>
-                            <hr>
-                            <h5 class="card-title fw-bold text-uppercase" th:text="'Notes'"></h5>
-                            <p th:text="${recipe.notes.recipeNotes}" style="white-space: pre-line;"></p>
+                            <div class="col-7">
+                                <h5 class="card-title fw-bold text-uppercase" th:text="'Categories'"></h5>
+                                <p>
+                                    <span th:each="cat : ${recipe.categories}">
+                                        <span class="badge text-bg-success" th:text="${cat.description}"></span>
+                                    </span>
+                                </p>
+                            </div>
+
                         </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <ol class="list-group">
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Prep Time</div>
+                                            <span th:text="${recipe.prepTime} + ' min'"></span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Cook Time</div>
+                                            <span th:text="${recipe.cookTime} + ' min'"></span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Source</div>
+                                            <span th:text="${recipe.source ?: 'No info'}">No info</span>
+                                        </div>
+                                    </li>
+                                </ol>                                </div>
+                            <div class="col-6">
+                                <ol class="list-group">
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Difficulty</div>
+                                            <span th:text="${recipe.difficulty}"></span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Servings</div>
+                                            <span th:text="${recipe.servings}">No info</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-start align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Url</div>
+                                            <span th:text="${recipe.url}">No info</span>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="card-title fw-bold text-uppercase">Ingredients
+                            <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" class="btn btn-outline-success">
+                                Detail <i class="bi bi-search"></i>
+                            </a>
+                        </h5>
+                        <ul class="list-group">
+                            <li th:each="ing : ${recipe.ingredients}" class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="fw-bold" th:text="${ing.description}"></div>
+                                <div>
+                                    <span th:text="${ing.uom.description}"></span>
+                                    <span class="badge text-bg-primary rounded-pill" th:text="${ing.amount}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <hr>
+                        <h5 class="card-title fw-bold text-uppercase fw-bold text-uppercase" th:text="'Directions'"></h5>
+                        <p th:text="${recipe.directions}" style="white-space: pre-line;"></p>
+                        <hr>
+                        <h5 class="card-title fw-bold text-uppercase" th:text="'Notes'"></h5>
+                        <p th:text="${recipe.notes.recipeNotes}" style="white-space: pre-line;"></p>
                     </div>
                 </div>
             </div>
