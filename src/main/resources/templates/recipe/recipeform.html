@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <div class="col-8 offset-2">
-                <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post">
+                <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post" enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}"/>
                     <div class="card">
                         <div class="card-header">
@@ -45,13 +45,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col form-group">
-                                    <label>Recipe Description:</label>
+                                    <label class="form-label">Recipe Description:</label>
                                     <input type="text" class="form-control" th:field="*{description}"/>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col form-group">
-                                    <label>Categories:</label>
+                                    <label class="form-label">Categories:</label>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
                                         <label class="form-check-label" for="inlineCheckbox1">Cat 1</label>
@@ -62,19 +62,30 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="row mt-3">
+                                <div class="col-5">
+                                    <img th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}" class="rounded float-start">
+                                </div>
+                                <div class="col-7">
+                                    <label for="file" class="form-label">Change image</label>
+                                    <input class="form-control" type="file" id="file" name="file" accept="image/*" />
+                                </div>
+                            </div>
+                            <hr>
                             <div class="row mt-3">
                                 <div class="col-4 form-group">
-                                    <label>Prep Time:</label>
+                                    <label class="form-label">Prep Time:</label>
                                     <input type="text" class="form-control" th:field="*{prepTime}"/>
                                 </div>
                                 <div class="col-4 form-group">
-                                    <label>Cooktime:</label>
+                                    <label class="form-label">Cooktime:</label>
                                     <input type="text" class="form-control" th:field="*{cookTime}"/>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-4 form-group">
-                                    <label>Difficulty</label>
+                                    <label class="form-label">Difficulty</label>
                                     <select class="form-select" th:field="*{difficulty}">
                                         <option th:each="d : ${T(org.lucius.recipe.domain.Difficulty).values()}"
                                                 th:value="${d.name()}"
@@ -83,22 +94,26 @@
                                     </select>
                                 </div>
                                 <div class="col-4 form-group">
-                                    <label>Servings:</label>
+                                    <label class="form-label">Servings:</label>
                                     <input type="text" class="form-control" th:field="*{servings}"/>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-4 form-group">
-                                    <label>Source:</label>
+                                    <label class="form-label">Source:</label>
                                     <input type="text" class="form-control" th:field="*{source}"/>
                                 </div>
                                 <div class="col-4 form-group">
-                                    <label>URL:</label>
+                                    <label class="form-label">URL:</label>
                                     <input type="text" class="form-control" th:field="*{url}"/>
                                 </div>
                             </div>
                             <hr>
-                            <h5 class="card-title fw-bold text-uppercase">Ingredients <a class="btn btn-primary" href="#" role="button">Edit</a></h5>
+                            <h5 class="card-title fw-bold text-uppercase">Ingredients
+                                <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" class="btn btn-outline-success float-end">
+                                    Edit <i class="bi bi-pencil"></i>
+                                </a>
+                            </h5>
                             <div class="row mt-3">
                                 <div class="col">
                                     <ul>
@@ -116,14 +131,15 @@
                             <h5 class="card-title fw-bold text-uppercase">Directions</h5>
                             <div class="row">
                                 <div class="col form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
+                                    <textarea class="form-control" rows="8" th:field="*{directions}"></textarea>
+                                </div>
                             </div>
                             <hr>
                             <h5 class="card-title fw-bold text-uppercase">Notes</h5>
                             <input type="hidden" th:field="*{notes.id}"/>
                             <div class="row">
                                 <div class="col form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
+                                    <textarea class="form-control" rows="8" th:field="*{notes.recipeNotes}"></textarea>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">Submit</button>

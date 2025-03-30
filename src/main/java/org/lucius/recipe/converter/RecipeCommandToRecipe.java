@@ -7,6 +7,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 /**
  * Created by jt on 6/21/17.
  */
@@ -43,6 +45,20 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         recipe.setSource(source.getSource());
         recipe.setUrl(source.getUrl());
         recipe.setNotes(notesConverter.convert(source.getNotes()));
+
+        try {
+            Byte[] imageByte = new Byte[source.getFile().getBytes().length];
+
+            int i = 0;
+            for (byte b : source.getFile().getBytes()) {
+                imageByte[i++] = b;
+            }
+
+            recipe.setImage(imageByte);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         if (source.getCategories() != null && source.getCategories().size() > 0){
             source.getCategories()

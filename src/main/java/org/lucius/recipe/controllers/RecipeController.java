@@ -1,17 +1,22 @@
 package org.lucius.recipe.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.lucius.recipe.commands.RecipeCommand;
 import org.lucius.recipe.domain.Recipe;
 import org.lucius.recipe.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Controller
 @RequestMapping("/recipe")
+@Slf4j
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -57,6 +62,26 @@ public class RecipeController {
 
         recipeService.deleteById(id);
         return "redirect:/";
+    }
+
+    @GetMapping
+    @RequestMapping("/{id}/recipeimage")
+    public void renderImage(@PathVariable Long id, HttpServletResponse response) throws IOException {
+
+        RecipeCommand recipeCommand = recipeService.findCommandById(id);
+
+        if (recipeCommand.getImage() != null) {
+            byte[] byteArray = new byte[recipeCommand.getImage().length];
+            int i = 0;
+
+            for (Byte wrappedByte : recipeCommand.getImage()){
+                byteArray[i++] = wrappedByte; //auto unboxing
+            }
+
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArray);
+            IOUtils.copy(is, response.getOutputStream());
+        }
     }
 
 }

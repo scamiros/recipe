@@ -5,6 +5,7 @@ import org.lucius.recipe.commands.RecipeCommand;
 import org.lucius.recipe.converter.RecipeCommandToRecipe;
 import org.lucius.recipe.converter.RecipeToRecipeCommand;
 import org.lucius.recipe.domain.Recipe;
+import org.lucius.recipe.exceptions.NotFoundException;
 import org.lucius.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,8 @@ public class RecipeService {
     }
 
     public Recipe findById(Long id) {
-        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
+        return recipeRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Recipe not found for id " + id));
     }
 
     public RecipeCommand findCommandById(Long id) {
