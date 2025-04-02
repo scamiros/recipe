@@ -27,7 +27,10 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: mvn test jacoco:report
+      - run:
+          name: Upload coverage to Codecov
+          command: bash <(curl -s https://codecov.io/bash)
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
