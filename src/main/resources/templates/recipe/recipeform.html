@@ -37,6 +37,9 @@
         <div class="row">
             <div class="col-8 offset-2">
                 <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post" enctype="multipart/form-data">
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        <span>Please correct errors below</span>
+                    </div>
                     <input type="hidden" th:field="*{id}"/>
                     <div class="card">
                         <div class="card-header">
@@ -46,7 +49,10 @@
                             <div class="row">
                                 <div class="col form-group">
                                     <label class="form-label">Recipe Description:</label>
-                                    <input type="text" class="form-control" th:field="*{description}"/>
+                                    <input type="text" th:field="*{description}" class="form-control" th:errorclass="is-invalid" />
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -76,11 +82,17 @@
                             <div class="row mt-3">
                                 <div class="col-4 form-group">
                                     <label class="form-label">Prep Time:</label>
-                                    <input type="text" class="form-control" th:field="*{prepTime}"/>
+                                    <input type="text" class="form-control" th:field="*{prepTime}" th:errorclass="is-invalid"/>
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('prepTime')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('prepTime')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                                 <div class="col-4 form-group">
                                     <label class="form-label">Cooktime:</label>
-                                    <input type="text" class="form-control" th:field="*{cookTime}"/>
+                                    <input type="text" class="form-control" th:field="*{cookTime}" th:errorclass="is-invalid"/>
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('cookTime')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('cookTime')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -95,7 +107,10 @@
                                 </div>
                                 <div class="col-4 form-group">
                                     <label class="form-label">Servings:</label>
-                                    <input type="text" class="form-control" th:field="*{servings}"/>
+                                    <input type="text" class="form-control" th:field="*{servings}" th:errorclass="is-invalid"/>
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('servings')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('servings')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -105,7 +120,10 @@
                                 </div>
                                 <div class="col-4 form-group">
                                     <label class="form-label">URL:</label>
-                                    <input type="text" class="form-control" th:field="*{url}"/>
+                                    <input type="text" class="form-control" th:field="*{url}" th:errorclass="is-invalid"/>
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('url')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -131,7 +149,10 @@
                             <h5 class="card-title fw-bold text-uppercase">Directions</h5>
                             <div class="row">
                                 <div class="col form-group">
-                                    <textarea class="form-control" rows="8" th:field="*{directions}"></textarea>
+                                    <textarea class="form-control" rows="8" th:field="*{directions}" th:errorclass="is-invalid"></textarea>
+                                    <div class="list-group-flush invalid-feedback" th:if="${#fields.hasErrors('directions')}">
+                                        <li class="list-group-item" th:each="err : ${#fields.errors('directions')}" th:text="${err}"></li>
+                                    </div>
                                 </div>
                             </div>
                             <hr>

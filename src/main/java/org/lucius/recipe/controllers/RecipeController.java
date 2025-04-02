@@ -1,6 +1,7 @@
 package org.lucius.recipe.controllers;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.lucius.recipe.commands.RecipeCommand;
@@ -8,6 +9,7 @@ import org.lucius.recipe.domain.Recipe;
 import org.lucius.recipe.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +21,7 @@ import java.io.InputStream;
 @Slf4j
 public class RecipeController {
 
+    private static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -38,14 +41,7 @@ public class RecipeController {
     public String newRecipe(Model model){
         model.addAttribute("recipe", new RecipeCommand());
 
-        return "recipe/recipeform";
-    }
-
-    @PostMapping("/")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
-        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
-
-        return "redirect:/recipe/" + + savedCommand.getId() + "/show" ;
+        return RECIPE_RECIPEFORM_URL;
     }
 
     @RequestMapping("/{id}/update")
@@ -54,7 +50,23 @@ public class RecipeController {
         RecipeCommand command = recipeService.findCommandById(id);
         model.addAttribute("recipe", command);
 
-        return "recipe/recipeform";
+        return RECIPE_RECIPEFORM_URL;
+    }
+
+    @PostMapping("/")
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> {
+                log.debug(e.toString());
+            });
+
+            return RECIPE_RECIPEFORM_URL;
+        }
+
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
+
+        return "redirect:/recipe/" + + savedCommand.getId() + "/show" ;
     }
 
     @RequestMapping("/{id}/delete")
